@@ -126,8 +126,10 @@ public:
             for(int j = i+2;j<mes_sommets.size();j++)
             {
                 int temp;
-                temp = (mes_sommets[j].id - 1) * VALEUR_DEF_STOCKAGE_CABINE * tab_valeur_cabine_sommet[j].second;
-                if(temp<=2000)
+                if(i>0)
+                {temp = (mes_sommets[j].id -i-1) * VALEUR_DEF_STOCKAGE_CABINE * tab_valeur_cabine_sommet[j].second;}
+                else{temp = (mes_sommets[j].id -1) * VALEUR_DEF_STOCKAGE_CABINE * tab_valeur_cabine_sommet[j].second;}
+                if(temp<=VALEUR_DEF_ENTRE_SOMMET)
                 {
                     arete temporaire(mes_sommets[i].id,mes_sommets[j].id,temp);
                     mes_sommets[i].connexions.push_back(temporaire);
