@@ -11,23 +11,23 @@ using namespace std;
 #define SOMMET_DEPART 0
 
 
-class arrete{
+class arete{
     public:
     int start;
     int end;
     float cost;
-    arrete(int s,int e, float c){
+    arete(int s,int e, float c){
         start = s;
         end = e;
         cost = c;
     }
-    void affiche_arrete(){cout<<"Arrete : "<<start<<" --------- "<<cost<<" ---------> "<<end<<endl;}
+    void affiche_arrete(){cout<<"Arete : "<<start<<" --------- "<<cost<<" ---------> "<<end<<endl;}
 }; 
 
  class sommet{
     public:
     int id; 
-    vector <arrete> connexions;
+    vector <arete> connexions;
     sommet(int iD){
         id = iD;
     }
@@ -74,7 +74,7 @@ public:
             if( i != nombre_sommet)
             {
                 sommet temp(i);
-                arrete init(i,i+1,VALEUR_DEF_ENTRE_SOMMET);
+                arete init(i,i+1,VALEUR_DEF_ENTRE_SOMMET);
                 temp.connexions.push_back(init);
                 mes_sommets.push_back(temp);
             }
@@ -115,13 +115,36 @@ public:
         }
 
         cout<<endl<<endl<<"Pire cas en stockage ------------> "<<somme_global<<endl; 
+    }
+    void calcule_arete_entre_sommet()
+    {
+        for(int i = 0;i<=mes_sommets.size();i++)
+        {
+            for(int j = i+2;j<=mes_sommets.size()-1;j++)
+            {
+                int temp;
+                temp = (mes_sommets[j].id - 1) * VALEUR_DEF_STOCKAGE_CABINE * tab_valeur_cabine_sommet[j].second;
+                if(temp<=2000)
+                {
+                    arete temporaire(mes_sommets[i].id,mes_sommets[j].id,temp);
+                    mes_sommets[i].connexions.push_back(temporaire);
+                }
+            } 
+        }
+
+        for(int j = 0; j< mes_sommets.size();j++)
+        {
+            mes_sommets[j].affiche_sommet();
+        }
 
 
     }
+
 };
 int main()
 {
     Graphe zebi;
     zebi.calcules_pire_cas();
+    zebi.calcule_arete_entre_sommet();
     return 0;
 }
