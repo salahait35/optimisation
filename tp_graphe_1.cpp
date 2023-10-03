@@ -167,9 +167,9 @@ public:
     void calcule_plus_court_chemin()
     {
         cout<<endl<<endl<<"je rentre dans plus court chemin "<<endl;
-        int cout_minimal;
+        int cout_minimal = 0;
         vector <int> plus_court_chemin;
-        int temp_minimal;
+        int temp_minimal = 0;
         stack <int> sommer_non_visite;
         vector <pair<int,int> > plus_court_chemin_vers_sommet;
 
@@ -185,16 +185,23 @@ public:
         {
             vector<pair<int,int> > temp = les_chemin_vers_mon_sommet(sommer_non_visite.top());
             cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
-            for(int i = 0; i < temp.size();i++)
+            /// ALGORITHME PLUS COURT CHEMIN    
+            /// 1 er cas ou il n'ya qu'une connexion possible a ce sommet, donc pas besoin de calculer le plus court chemin. 
+            if(temp.size()==1)
             {
-                cout<<temp[i].first <<"-------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
-            /// ALGORITHME PLUS COURT CHEMIN     
-                if(temp.size()==1)
-                    {
-                        plus_court_chemin.push_back(sommer_non_visite.top()); // on met dans la pile le sommet qu'on visite, on le depile que si on trouve mieux que lui
-                    }
-
+                plus_court_chemin.push_back(sommer_non_visite.top()); // on met dans la pile le sommet car il n'ya que cette connexion vers lui
+                cout_minimal += temp[0].second; // on additionne le cout minimal
+                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),temp_minimal)); // on stock ici uniquement les cout minimal pour une
+                // un sommet donc ici l'exemple sommet 2,2400
             }
+            else
+            {
+                for(int i = 0; i< temp.size();i++)
+                {
+                    
+                }
+            }
+
 
             sommer_non_visite.pop();
         }
