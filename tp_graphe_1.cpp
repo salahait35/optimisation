@@ -46,6 +46,8 @@ class arete{
         }
     }
 
+
+
 };
 
 class Graphe {
@@ -168,12 +170,11 @@ public:
     {
         cout<<endl<<endl<<"je rentre dans plus court chemin "<<endl;
         int cout_minimal = 0;
-        vector <int> plus_court_chemin;
-        int temp_minimal = 0;
+        stack <int> plus_court_chemin;
         stack <int> sommer_non_visite;
         vector <pair<int,int> > plus_court_chemin_vers_sommet;
 
-        plus_court_chemin.push_back(SOMMET_DEPART); // initialisation de notre pile du plus court chemin 
+        plus_court_chemin.push(SOMMET_DEPART); // initialisation de notre pile du plus court chemin 
 
         for(int i = mes_sommets.size()-1;i>0;i-- )
         {
@@ -187,24 +188,42 @@ public:
             cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
             /// ALGORITHME PLUS COURT CHEMIN    
             /// 1 er cas ou il n'ya qu'une connexion possible a ce sommet, donc pas besoin de calculer le plus court chemin. 
+
             if(temp.size()==1)
             {
-                plus_court_chemin.push_back(sommer_non_visite.top()); // on met dans la pile le sommet car il n'ya que cette connexion vers lui
+                plus_court_chemin.push(sommer_non_visite.top()); // on met dans la pile le sommet car il n'ya que cette connexion vers lui
                 cout_minimal += temp[0].second; // on additionne le cout minimal
-                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),temp_minimal)); // on stock ici uniquement les cout minimal pour une
+                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal)); // on stock ici uniquement les cout minimal pour une
                 // un sommet donc ici l'exemple sommet 2,2400
             }
             else
             {
+                int temp_min = cout_minimal;
+                cout_minimal += VALEUR_DEF_ENTRE_SOMMET;
                 for(int i = 0; i< temp.size();i++)
                 {
-                    
+                    if(temp[i].first != sommer_non_visite.top()-1)
+                    {
+                        if(temp_min+temp[i].second<cout_minimal)
+                        {
+                            plus_court_chemin.pop();
+                            plus_court_chemin.push(temp[i].first);
+                            cout_minimal = temp_min+temp[i].second; 
+                        }
+                    }
                 }
+                
+                cout<<" on a choisi ce prochain sommet : "<<plus_court_chemin.top()<<endl;
+                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
             }
 
 
             sommer_non_visite.pop();
         }
+
+        
+
+        cout<<endl<<cout_minimal;
         
         
     }
