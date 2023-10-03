@@ -171,7 +171,9 @@ public:
         vector <int> plus_court_chemin;
         int temp_minimal;
         stack <int> sommer_non_visite;
+        vector <pair<int,int> > plus_court_chemin_vers_sommet;
 
+        plus_court_chemin.push_back(SOMMET_DEPART); // initialisation de notre pile du plus court chemin 
 
         for(int i = mes_sommets.size()-1;i>0;i-- )
         {
@@ -185,9 +187,15 @@ public:
             cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
             for(int i = 0; i < temp.size();i++)
             {
-
                 cout<<temp[i].first <<"-------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
+            /// ALGORITHME PLUS COURT CHEMIN     
+                if(temp.size()==1)
+                    {
+                        plus_court_chemin.push_back(sommer_non_visite.top()); // on met dans la pile le sommet qu'on visite, on le depile que si on trouve mieux que lui
+                    }
+
             }
+
             sommer_non_visite.pop();
         }
         
