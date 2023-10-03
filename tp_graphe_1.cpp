@@ -34,7 +34,8 @@ class arete{
 
     void affiche_sommet()
     {
-
+        if(connexions.size()>0)
+        {
         cout<<"***************************************"<<endl;
         cout<<" SOMMET ID : "<<id<<endl;
         for(int i=0;i<connexions.size();i++)
@@ -42,6 +43,7 @@ class arete{
             connexions[i].affiche_arrete();
         }
         cout<<"***************************************"<<endl;
+        }
     }
 
 };
@@ -71,13 +73,14 @@ public:
         std::cout <<endl<<endl<<endl<<endl<<endl<<endl; 
         for(int i = 0;i<= nombre_sommet;i++)
         {
+            
+            sommet temp(i);
             if( i != nombre_sommet)
             {
-                sommet temp(i);
                 arete init(i,i+1,VALEUR_DEF_ENTRE_SOMMET);
                 temp.connexions.push_back(init);
-                mes_sommets.push_back(temp);
             }
+            mes_sommets.push_back(temp);
             cout<<"pour le sommet numero : "<<i<<"  voila le nombre de cabines  -------->  "<<tab_valeur_cabine_sommet[i].second<<endl;
         } 
         for(int j = 0; j< mes_sommets.size();j++)
@@ -97,7 +100,7 @@ public:
     {   
         std::cout <<endl<<endl;
         int somme_global = 0;
-        for(int i = 0; i< mes_sommets.size();i++)
+        for(int i = 0; i< mes_sommets.size()-1;i++)
         {
             somme_global += mes_sommets[i].connexions[0].cost;
         }
@@ -105,7 +108,7 @@ public:
 
         somme_global = 0;
 
-        for(int i = 0; i< mes_sommets.size();i++)
+        for(int i = 0; i< mes_sommets.size()-1;i++)
         {
             if(mes_sommets[i].id>0)
             {
@@ -120,7 +123,7 @@ public:
     {
         for(int i = 0;i<=mes_sommets.size();i++)
         {
-            for(int j = i+2;j<=mes_sommets.size()-1;j++)
+            for(int j = i+2;j<mes_sommets.size();j++)
             {
                 int temp;
                 temp = (mes_sommets[j].id - 1) * VALEUR_DEF_STOCKAGE_CABINE * tab_valeur_cabine_sommet[j].second;
