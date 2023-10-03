@@ -83,14 +83,15 @@ public:
             mes_sommets.push_back(temp);
             cout<<"pour le sommet numero : "<<i<<"  voila le nombre de cabines  -------->  "<<tab_valeur_cabine_sommet[i].second<<endl;
         } 
-        for(int j = 0; j< mes_sommets.size();j++)
-        {
-            mes_sommets[j].affiche_sommet();
-        }
+        // for(int j = 0; j< mes_sommets.size();j++)
+        // {
+        //     mes_sommets[j].affiche_sommet();
+        // }
 
     }
 
-    /*  ici on fait en sorte d'avoir les deux pires cas donc selon l'exercice stocker tout ou bien importer chaque mois
+    /*  
+        ici on fait en sorte d'avoir les deux pires cas donc selon l'exercice stocker tout ou bien importer chaque mois
         la regles pour calculer le cout de chaque sommet est de : 
         Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )  
         avec V0 = {0,0}
@@ -145,11 +146,60 @@ public:
 
     }
 
+    vector<pair<int,int> > les_chemin_vers_mon_sommet(int id)
+    {
+        vector<pair<int,int> > chemin_dispo_vers_mon_sommet;
+        for(int i=0; i<mes_sommets.size();i++)
+        {
+            if(mes_sommets[i].connexions.size()>0){
+            for(int j = 0;j<mes_sommets[i].connexions.size();j++)
+            {
+                if(mes_sommets[i].connexions[j].end == id)
+                {
+                    chemin_dispo_vers_mon_sommet.push_back(make_pair(mes_sommets[i].connexions[j].start,mes_sommets[i].connexions[j].cost));
+                }
+            }
+            }
+        }
+        return chemin_dispo_vers_mon_sommet;
+    } 
+
+    void calcule_plus_court_chemin()
+    {
+        cout<<endl<<endl<<"je rentre dans plus court chemin "<<endl;
+        int cout_minimal;
+        vector <int> plus_court_chemin;
+        int temp_minimal;
+        stack <int> sommer_non_visite;
+
+
+        for(int i = mes_sommets.size()-1;i>0;i-- )
+        {
+            sommer_non_visite.push(mes_sommets[i].id);
+        }
+
+
+        while (!sommer_non_visite.empty())
+        {
+            vector<pair<int,int> > temp = les_chemin_vers_mon_sommet(sommer_non_visite.top());
+            cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
+            for(int i = 0; i < temp.size();i++)
+            {
+
+                cout<<temp[i].first <<"-------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
+            }
+            sommer_non_visite.pop();
+        }
+        
+        
+    }
+
 };
 int main()
 {
     Graphe zebi;
     zebi.calcules_pire_cas();
     zebi.calcule_arete_entre_sommet();
+    zebi.calcule_plus_court_chemin();
     return 0;
 }
