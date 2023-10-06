@@ -55,6 +55,7 @@ class Graphe {
 public:
     int nombre_sommet;
     vector<pair<int, int> > tab_valeur_cabine_sommet;
+    vector<pair<int,int> > chemin_a_partir_de_zero;
     vector<sommet> mes_sommets;
 
 
@@ -144,10 +145,15 @@ public:
                 somme_global += ( VALEUR_DEF_STOCKAGE_CABINE * mes_sommets[i].id * tab_valeur_cabine_sommet[i+1].second );
             }
             else {somme_global += VALEUR_DEF_ENTRE_SOMMET;}
+
+            chemin_a_partir_de_zero.push_back(make_pair(i,somme_global));
         }
 
         cout<<endl<<endl<<"Pire cas en stockage ------------> "<<somme_global<<endl; 
     }
+
+
+
     void calcule_arete_entre_sommet()
     {
         for(int i = 0;i<=mes_sommets.size();i++)
@@ -200,12 +206,24 @@ public:
         stack <int> sommer_non_visite;
         vector <pair<int,int> > plus_court_chemin_vers_sommet;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                            //INIT
+
         plus_court_chemin.push(SOMMET_DEPART); // initialisation de notre pile du plus court chemin 
 
         for(int i = mes_sommets.size()-1;i>0;i-- )
         {
             sommer_non_visite.push(mes_sommets[i].id);
         }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
         cout<<" on a choisi ce  depart pour sommet : ";
         while (!sommer_non_visite.empty())
@@ -215,7 +233,6 @@ public:
             /// ALGORITHME PLUS COURT CHEMIN    
             /// 1 er cas ou il n'ya qu'une connexion possible a ce sommet, donc pas besoin de calculer le plus court chemin. 
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -224,7 +241,7 @@ public:
             for(int i = 0; i < temp.size();i++)
             {
 
-                cout<<temp[i].first <<"-------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
+                //cout<<"V"<<temp[i].first <<"+ -------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
             }
             /// FIN DE DEBUG 
 
@@ -241,29 +258,38 @@ public:
             else
             {
                 int temp_min = cout_minimal;
-                cout_minimal += VALEUR_DEF_ENTRE_SOMMET;
                 for(int i = 0; i< temp.size();i++)
                 {
-                    if(temp[i].first != sommer_non_visite.top()-1)
+                    int ecart = sommer_non_visite.top()-temp[i].first;
+                    switch (ecart)
                     {
-                        if(temp_min+temp[i].second<cout_minimal) // a coriger mauvaise comparaison 
+                    case 1:
+                        temp_min += VALEUR_DEF_ENTRE_SOMMET;
+                        break;
+                        
+                    default:
+                        if(temp[i].first == 0)
                         {
-                            plus_court_chemin.pop();
-                            plus_court_chemin.push(temp[i].first);
-                            cout_minimal = temp_min+temp[i].second;  // a coriger mauvaise addition 
+                            temp_min = chemin_a_partir_de_zero[sommer_non_visite.top()-1].second;
                         }
+                        else{
+                            
+                        }
+                        break;
                     }
-                }
 
-                cout<<plus_court_chemin.top();
-                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
+                }
+  
             }
 
-
-            sommer_non_visite.pop();
+                //cout<<plus_court_chemin.top();
+                //plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
+                sommer_non_visite.pop();
         }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
                                 // PARTIE AFFICHAGE RESULTAT 
         cout<<endl<<" le chemin est : ";
 
@@ -280,10 +306,20 @@ public:
 
 
         cout<<endl<<"et le coup est : "<<cout_minimal;
-        
+ */       
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+    void affiche_chemin_depuis_zero()
+    {
+        for(int t= 0; t<chemin_a_partir_de_zero.size();t++) 
+        {
+            cout<<"pour le sommet : "<<chemin_a_partir_de_zero[t].first+1<<" le cout a partir de zero est de : "<<chemin_a_partir_de_zero[t].second<<endl;
+        }
     }
+    
 
 };
 int main()
@@ -292,5 +328,6 @@ int main()
     zebi.calcules_pire_cas();
     zebi.calcule_arete_entre_sommet();
     zebi.calcule_plus_court_chemin();
+    //zebi.affiche_chemin_depuis_zero();
     return 0;
 }
