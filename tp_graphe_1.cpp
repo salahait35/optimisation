@@ -246,11 +246,11 @@ public:
                 {
                     if(temp[i].first != sommer_non_visite.top()-1)
                     {
-                        if(temp_min+temp[i].second<cout_minimal)
+                        if(temp_min+temp[i].second<cout_minimal) // a coriger mauvaise comparaison 
                         {
                             plus_court_chemin.pop();
                             plus_court_chemin.push(temp[i].first);
-                            cout_minimal = temp_min+temp[i].second; 
+                            cout_minimal = temp_min+temp[i].second;  // a coriger mauvaise addition 
                         }
                     }
                 }
@@ -262,7 +262,9 @@ public:
 
             sommer_non_visite.pop();
         }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+                                // PARTIE AFFICHAGE RESULTAT 
         cout<<endl<<" le chemin est : ";
 
         while(!plus_court_chemin.empty())
@@ -279,7 +281,8 @@ public:
 
         cout<<endl<<"et le coup est : "<<cout_minimal;
         
-        
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
 
 };
