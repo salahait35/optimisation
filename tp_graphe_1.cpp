@@ -21,7 +21,7 @@ class arete{
         end = e;
         cost = c;
     }
-    void affiche_arrete(){cout<<"Arete : "<<start<<" --------- "<<cost<<" ---------> "<<end<<endl;}
+    void affiche_arrete(){cout<<"Arete : V"<<start<<" --------- +"<<cost<<" ---------> "<<end<<endl;}
 }; 
 
  class sommet{
@@ -90,6 +90,32 @@ public:
         //     mes_sommets[j].affiche_sommet();
         // }
 
+    }
+
+    Graphe(bool go) /// CONSTRUCTEUR POUR LES TEST ET NON PAS POUR LE CAS GENERAL A UTILISER UNIQUEMENT POUR DEV
+    {
+        nombre_sommet = 6;
+
+        tab_valeur_cabine_sommet.push_back(make_pair(0,0));
+        tab_valeur_cabine_sommet.push_back(make_pair(1,200));
+        tab_valeur_cabine_sommet.push_back(make_pair(2,200));
+        tab_valeur_cabine_sommet.push_back(make_pair(3,300));
+        tab_valeur_cabine_sommet.push_back(make_pair(4,700));
+        tab_valeur_cabine_sommet.push_back(make_pair(5,1000));
+        tab_valeur_cabine_sommet.push_back(make_pair(6,200));
+
+        for(int i = 0;i<= nombre_sommet;i++)
+        {
+            
+            sommet temp(i);
+            if( i != nombre_sommet)
+            {
+                arete init(i,i+1,VALEUR_DEF_ENTRE_SOMMET);
+                temp.connexions.push_back(init);
+            }
+            mes_sommets.push_back(temp);
+            cout<<"pour le sommet numero : "<<i<<"  voila le nombre de cabines  -------->  "<<tab_valeur_cabine_sommet[i].second<<endl;
+        } 
     }
 
     /*  
@@ -212,7 +238,7 @@ public:
                         }
                     }
                 }
-                
+
                 cout<<" on a choisi ce prochain sommet : "<<plus_court_chemin.top()<<endl;
                 plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
             }
