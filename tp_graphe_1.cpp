@@ -207,13 +207,29 @@ public:
             sommer_non_visite.push(mes_sommets[i].id);
         }
 
-
+        cout<<" on a choisi ce  depart pour sommet : ";
         while (!sommer_non_visite.empty())
         {
             vector<pair<int,int> > temp = les_chemin_vers_mon_sommet(sommer_non_visite.top());
-            cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
+            //cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
             /// ALGORITHME PLUS COURT CHEMIN    
             /// 1 er cas ou il n'ya qu'une connexion possible a ce sommet, donc pas besoin de calculer le plus court chemin. 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            /// BOUT DE CODE POUR LE DEBUG ///
+            cout<<"chemin vers le sommet : "<<sommer_non_visite.top()<<endl<<endl;
+            for(int i = 0; i < temp.size();i++)
+            {
+
+                cout<<temp[i].first <<"-------"<<temp[i].second<< " -----------> "<<sommer_non_visite.top()<<endl;
+            }
+            /// FIN DE DEBUG 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if(temp.size()==1)
             {
@@ -239,7 +255,7 @@ public:
                     }
                 }
 
-                cout<<" on a choisi ce prochain sommet : "<<plus_court_chemin.top()<<endl;
+                cout<<plus_court_chemin.top();
                 plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
             }
 
@@ -247,9 +263,21 @@ public:
             sommer_non_visite.pop();
         }
 
-        
+        cout<<endl<<" le chemin est : ";
 
-        cout<<endl<<cout_minimal;
+        while(!plus_court_chemin.empty())
+        {
+            cout<<" "<<plus_court_chemin.top()<< "|";
+            plus_court_chemin.pop();
+        }
+
+        for(int j= 0; j<plus_court_chemin_vers_sommet.size();j++)
+        {
+            cout<<" pour le sommet "<<plus_court_chemin_vers_sommet[j].first<<" son cout minimal est = "<<plus_court_chemin_vers_sommet[j].second<<endl;
+        }        
+
+
+        cout<<endl<<"et le coup est : "<<cout_minimal;
         
         
     }
@@ -257,7 +285,7 @@ public:
 };
 int main()
 {
-    Graphe zebi;
+    Graphe zebi(true);
     zebi.calcules_pire_cas();
     zebi.calcule_arete_entre_sommet();
     zebi.calcule_plus_court_chemin();
