@@ -266,7 +266,7 @@ public:
                     switch (ecart)
                     {
                     case 1:
-                        temp_min += plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
+                        temp_min = plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
                         break;
                         
                     default:
@@ -275,10 +275,10 @@ public:
                             temp_min = chemin_a_partir_de_zero[sommer_non_visite.top()-1].second; // chemin depuis zero 
                         }
                         else{
-                            temp_min += plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
-                            for(int k = 0; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
+                            temp_min = plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
+                            for(int k = temp[i].first; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
                             {
-                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * k * tab_valeur_cabine_sommet[i+1].second;
+                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * (ecart - k) * tab_valeur_cabine_sommet[i+2].second;
                             }
                              // a continuer 
                         }
@@ -291,6 +291,7 @@ public:
                         plus_court_chemin.push(temp[i].first);
                         cout_minimal = temp_min;
                     }
+                    cout<<"sommet la : "<<sommer_non_visite.top()<<" son plus court chemin viens du sommet "<<temp[i].first<<" avec un coup de "<<temp_min<<endl;
 
                 }
                 plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
@@ -304,7 +305,7 @@ public:
 
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
                                 // PARTIE AFFICHAGE RESULTAT 
         cout<<endl<<" le chemin est : ";
 
@@ -320,7 +321,7 @@ public:
             cout<<" pour le sommet "<<plus_court_chemin_vers_sommet[j].first<<" son cout minimal est = "<<plus_court_chemin_vers_sommet[j].second<<endl;
         }        
 
-
+*/
        //cout<<endl<<"et le coup est : "<<cout_minimal;
        
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
