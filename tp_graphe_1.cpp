@@ -276,9 +276,10 @@ public:
                         }
                         else{
                             temp_min = plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
-                            for(int k = temp[i].first; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
+                            for(int k = 0; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
                             {
-                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * (ecart - k) * tab_valeur_cabine_sommet[i+2].second;
+
+                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * (k) * tab_valeur_cabine_sommet[i+2].second;
                             }
                              // a continuer 
                         }
@@ -291,7 +292,7 @@ public:
                         plus_court_chemin.push(temp[i].first);
                         cout_minimal = temp_min;
                     }
-                    cout<<"sommet la : "<<sommer_non_visite.top()<<" son plus court chemin viens du sommet "<<temp[i].first<<" avec un coup de "<<temp_min<<endl;
+                    cout<<"sommet la : "<<temp[i].first<<" --------"<<temp_min<<"-------> "<<sommer_non_visite.top()<<endl;
 
                 }
                 plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
