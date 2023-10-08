@@ -278,8 +278,7 @@ public:
                             temp_min = plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
                             for(int k = 0; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
                             {
-
-                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * (k) * tab_valeur_cabine_sommet[i+2].second;
+                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * (k) * tab_valeur_cabine_sommet[temp[i].first+k+1].second;
                             }
                              // a continuer 
                         }
