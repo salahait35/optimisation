@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <limits>
 
 using namespace std;
 
@@ -257,28 +258,42 @@ public:
             }
             else
             {
-                int temp_min = cout_minimal;
+                cout_minimal = numeric_limits<int>::max();
+                int temp_min; 
                 for(int i = 0; i< temp.size();i++)
                 {
                     int ecart = sommer_non_visite.top()-temp[i].first;
                     switch (ecart)
                     {
                     case 1:
-                        temp_min += VALEUR_DEF_ENTRE_SOMMET;
+                        temp_min += plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
                         break;
                         
                     default:
                         if(temp[i].first == 0)
                         {
-                            temp_min = chemin_a_partir_de_zero[sommer_non_visite.top()-1].second;
+                            temp_min = chemin_a_partir_de_zero[sommer_non_visite.top()-1].second; // chemin depuis zero 
                         }
                         else{
-                            
+                            temp_min += plus_court_chemin_vers_sommet[temp[i].first-1].second + VALEUR_DEF_ENTRE_SOMMET;
+                            for(int k = 0; k<ecart;k++) // Cout(Vi) = Cout(Vi-1) + ( Vi * VALEUR_DEF_STOCKAGE_CABINE * NB_CABINES_POUR LE SOMMET )
+                            {
+                                temp_min += VALEUR_DEF_STOCKAGE_CABINE * k * tab_valeur_cabine_sommet[i+1].second;
+                            }
+                             // a continuer 
                         }
                         break;
                     }
 
+                    if(temp_min < cout_minimal)
+                    {
+                        plus_court_chemin.pop();
+                        plus_court_chemin.push(temp[i].first);
+                        cout_minimal = temp_min;
+                    }
+
                 }
+                plus_court_chemin_vers_sommet.push_back(make_pair(sommer_non_visite.top(),cout_minimal));
   
             }
 
@@ -287,9 +302,9 @@ public:
                 sommer_non_visite.pop();
         }
 
-    }
+    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
                                 // PARTIE AFFICHAGE RESULTAT 
         cout<<endl<<" le chemin est : ";
 
@@ -298,6 +313,7 @@ public:
             cout<<" "<<plus_court_chemin.top()<< "|";
             plus_court_chemin.pop();
         }
+        cout<<endl;
 
         for(int j= 0; j<plus_court_chemin_vers_sommet.size();j++)
         {
@@ -305,10 +321,10 @@ public:
         }        
 
 
-        cout<<endl<<"et le coup est : "<<cout_minimal;
- */       
+       //cout<<endl<<"et le coup est : "<<cout_minimal;
+       
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    }
 
 
 
